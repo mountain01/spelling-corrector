@@ -38,17 +38,16 @@ public class Words implements Trie  {
     private int recursiveWordCount(WordNode node){
         int count = 0;
         for(WordNode myNode: node.Nodes){
-            if(myNode != null && myNode.count > 0){
-                count++;
+            if(myNode != null){
+                count += recursiveWordCount(myNode);
             }
-            count += recursiveWordCount(myNode);
         }
-        return count;
+        return count+=node.count>0?1:0;
     }
 
     @Override
     public int getNodeCount() {
-        return recursiveNodeCount(root);
+        return 1+recursiveNodeCount(root);
     }
 
     private int recursiveNodeCount(WordNode node){

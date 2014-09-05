@@ -9,20 +9,22 @@ public class SpellingCorrector implements SpellCorrector {
 
     public static void main(String[] args){
         Words test = new Words();
-        test.add("abc");
+        test.add("kick");
         int nodeCount = test.getNodeCount();
         int wordCount = test.getWordCount();
-        test.add("testing");
-        test.add("testing");
+        test.add("kicks");
         nodeCount = test.getNodeCount();
         wordCount = test.getWordCount();
-        test.add("tell");
+        test.add("kicker");
         nodeCount = test.getNodeCount();
         wordCount = test.getWordCount();
-        test.add("teller");
+        test.add("apple");
         nodeCount = test.getNodeCount();
         wordCount = test.getWordCount();
-        test.add("telling");
+        test.add("ape");
+        nodeCount = test.getNodeCount();
+        wordCount = test.getWordCount();
+        test.add("brick");
         nodeCount = test.getNodeCount();
         wordCount = test.getWordCount();
     }
