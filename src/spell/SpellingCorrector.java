@@ -3,35 +3,56 @@
  */
 package spell;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class SpellingCorrector implements SpellCorrector {
 
-    public static void main(String[] args){
-        Words test = new Words();
+    @Test
+    public void test1(){
+        Assert.assertEquals(test.getNodeCount(), 19);
+        Assert.assertEquals(test.getWordCount(), 6);
+        Assert.assertNotNull(test.find("apple"));
+        Assert.assertNull(test.find("bob"));
+        test.add("bob");
+        Assert.assertEquals(test.getNodeCount(), 21);
+        Assert.assertEquals(test.getWordCount(), 7);
+        Assert.assertNotNull(test.find("bob"));
+        test.add("bob");
+        Assert.assertEquals(test.getNodeCount(), 21);
+        Assert.assertEquals(test.getWordCount(), 7);
+        Assert.assertNotNull(test.find("bob"));
+
+
+        Assert.assertFalse(false);
+    }
+
+    Words dictionary;
+    public Words test;
+
+    @Before
+    public void init(){
+        test = new Words();
         test.add("kick");
-        int nodeCount = test.getNodeCount();
-        int wordCount = test.getWordCount();
         test.add("kicks");
-        nodeCount = test.getNodeCount();
-        wordCount = test.getWordCount();
         test.add("kicker");
-        nodeCount = test.getNodeCount();
-        wordCount = test.getWordCount();
         test.add("apple");
-        nodeCount = test.getNodeCount();
-        wordCount = test.getWordCount();
         test.add("ape");
-        nodeCount = test.getNodeCount();
-        wordCount = test.getWordCount();
         test.add("brick");
-        nodeCount = test.getNodeCount();
-        wordCount = test.getWordCount();
     }
 
     @Override
     public void useDictionary(String dictionaryFileName) throws IOException {
-
+        Scanner in = new Scanner(new File(dictionaryFileName));
+        while(in.hasNextLine()){
+            dictionary.add(in.nextLine());
+        }
+        in.close();
     }
 
     @Override

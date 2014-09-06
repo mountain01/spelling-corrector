@@ -5,17 +5,26 @@ package spell;
  */
 public class Words implements Trie  {
     WordNode root = new WordNode();
+    int nodeCount =1;
+    int wordCount=0;
 
     @Override
     public void add(String word) {
-        WordNode temp = root;
+        WordNode temp = find(word);
+        if (temp != null){
+            temp.count++;
+            return;
+        }
+        temp = root;
         for(char c:word.toLowerCase().toCharArray()){
             if(temp.Nodes[c-'a'] == null){
                 temp.Nodes[c-'a'] = new WordNode();
+                nodeCount++;
             }
             temp = temp.Nodes[c-'a'];
         }
         temp.count++;
+        wordCount++;
     }
 
     @Override
@@ -32,7 +41,7 @@ public class Words implements Trie  {
 
     @Override
     public int getWordCount() {
-        return recursiveWordCount(root);
+        return wordCount;
     }
 
     private int recursiveWordCount(WordNode node){
@@ -47,7 +56,7 @@ public class Words implements Trie  {
 
     @Override
     public int getNodeCount() {
-        return 1+recursiveNodeCount(root);
+        return nodeCount;
     }
 
     private int recursiveNodeCount(WordNode node){
