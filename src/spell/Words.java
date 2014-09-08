@@ -16,12 +16,15 @@ public class Words implements Trie  {
             return;
         }
         temp = root;
+        StringBuilder name = new StringBuilder();
         for(char c:word.toLowerCase().toCharArray()){
             if(temp.Nodes[c-'a'] == null){
                 temp.Nodes[c-'a'] = new WordNode();
                 nodeCount++;
             }
             temp = temp.Nodes[c-'a'];
+            name.append(c);
+            temp.setName(name.toString());
         }
         temp.count++;
         wordCount++;
@@ -69,14 +72,23 @@ public class Words implements Trie  {
         return count;
     }
 
-    private class WordNode implements Trie.Node {
+    public class WordNode implements Trie.Node {
 
         public WordNode[] Nodes = new WordNode[26];
         private int count=0;
+        private String name;
 
         @Override
         public int getValue() {
             return count;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
     }
 }
