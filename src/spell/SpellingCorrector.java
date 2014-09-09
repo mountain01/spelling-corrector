@@ -9,15 +9,16 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class SpellingCorrector implements SpellCorrector {
 
     @Test
     public void test1() throws IOException, NoSimilarWordFoundException {
         SpellingCorrector testSpell = new SpellingCorrector();
-        testSpell.suggestSimilarWord("Tree");
+        testSpell.dictionary.add("auxilar");
+        testSpell.dictionary.add("Buxilary");
+        testSpell.suggestSimilarWord("on");
 //        testSpell.useDictionary("dictionary.txt");
 
         Assert.assertEquals(test.getNodeCount(), 19);
@@ -39,7 +40,6 @@ public class SpellingCorrector implements SpellCorrector {
 
     Words dictionary = new Words();
     public Words test;
-    ArrayList<String> possibilities = new ArrayList<String>();
 
     @Before
     public void init(){
@@ -63,31 +63,82 @@ public class SpellingCorrector implements SpellCorrector {
 
     @Override
     public String suggestSimilarWord(String inputWord) throws NoSimilarWordFoundException {
+        ArrayList<String> possibles = new ArrayList<String>();
         // if word is in the Trie
         if(dictionary.find(inputWord) != null){
             return inputWord.toLowerCase();
         } else {
-            getEditDistances(inputWord.toLowerCase());
+            possibles = getEditDistances(inputWord.toLowerCase());
+            Map<String,Integer> words = getValidWords(possibles);
+
+            // no similar words found
+            if(words.size() == 0){
+                possibles = getEditDistances(possibles);
+                words = getValidWords(possibles);
+                if(words.size() == 0){
+                    throw new NoSimilarWordFoundException();
+                }
+            }
+
+            // get max occurances
+            int max = 0;
+            for(String word:words.keySet()){
+                max = words.get(word) > max ? words.get(word):max;
+            }
+
+            // get list of words with max count
+            ArrayList<String> validWords = new ArrayList<String>();
+            for(String word:words.keySet()){
+                if(words.get(word) == max){
+                    validWords.add(word);
+                }
+            }
+
+            // if only 1 return it, else return first alphebetically
+            Collections.sort(validWords);
+            return validWords.get(0);
+
         }
-        return null;
     }
 
-    public void getEditDistances(String input){
-        deleteDistance(input);
-        insAltDistance(input,0);
-        insAltDistance(input,1);
-        transpositionDistance(input);
+    public Map<String,Integer> getValidWords(ArrayList<String> list){
+        Map<String,Integer> words = new HashMap<String, Integer>();
+        for(String word:list){
+            Words.WordNode node = dictionary.find(word);
+            if(node != null){
+                words.put(word,node.getValue());
+            }
+        }
+        return words;
     }
 
-    public void deleteDistance(String input){
+    public ArrayList<String> getEditDistances(String input){
+        ArrayList<String> possibilities = new ArrayList<String>();
+        possibilities.addAll(deleteDistance(input));
+        possibilities.addAll(insAltDistance(input, 0));
+        possibilities.addAll(insAltDistance(input, 1));
+        possibilities.addAll(transpositionDistance(input));
+        return possibilities;
+    }
+
+    public ArrayList<String> getEditDistances(ArrayList<String> list){
+        ArrayList<String> possiblities = new ArrayList<String>();
+        for(String word:list){
+            possiblities.addAll(getEditDistances(word));
+        }
+        return possiblities;
+    }
+
+    public ArrayList<String> deleteDistance(String input){
         ArrayList<String> deleteList = new ArrayList<String>();
        for(int i = 0; i < input.length();i++){
            String newWord = input.substring(0,i).concat(input.substring(i+1));
            deleteList.add(newWord);
        }
+        return deleteList;
     }
 
-    public void insAltDistance(String input,int distance){
+    public ArrayList<String> insAltDistance(String input,int distance){
         ArrayList<String> insertList = new ArrayList<String>();
         for(int i = 0;i<26;i++){
             char c = (char) ('a'+i);
@@ -99,11 +150,16 @@ public class SpellingCorrector implements SpellCorrector {
                 insertList.add(input+c);
             }
         }
-
+        return insertList;
     }
 
-    public void transpositionDistance(String input){
-
+    public ArrayList<String> transpositionDistance(String input){
+        ArrayList<String> transList = new ArrayList<String>();
+        for(int i = 0; i < input.length()-1;i++){
+            String newWord = input.substring(0,i)+input.charAt(i+1)+input.charAt(i)+input.substring(i+2);
+            transList.add(newWord);
+        }
+        return transList;
     }
 
 }

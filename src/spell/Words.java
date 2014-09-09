@@ -16,16 +16,14 @@ public class Words implements Trie  {
             return;
         }
         temp = root;
-        StringBuilder name = new StringBuilder();
         for(char c:word.toLowerCase().toCharArray()){
             if(temp.Nodes[c-'a'] == null){
                 temp.Nodes[c-'a'] = new WordNode();
                 nodeCount++;
             }
             temp = temp.Nodes[c-'a'];
-            name.append(c);
-            temp.setName(name.toString());
         }
+        temp.setName(word);
         temp.count++;
         wordCount++;
     }
