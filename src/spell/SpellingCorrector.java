@@ -16,10 +16,8 @@ public class SpellingCorrector implements SpellCorrector {
     @Test
     public void test1() throws IOException, NoSimilarWordFoundException {
         SpellingCorrector testSpell = new SpellingCorrector();
-        testSpell.dictionary.add("auxilar");
-        testSpell.dictionary.add("Buxilary");
-        testSpell.suggestSimilarWord("on");
-//        testSpell.useDictionary("dictionary.txt");
+        testSpell.useDictionary("dictionary.txt");
+        System.out.println(test.toString());
 
         Assert.assertEquals(test.getNodeCount(), 19);
         Assert.assertEquals(test.getWordCount(), 6);
@@ -33,6 +31,7 @@ public class SpellingCorrector implements SpellCorrector {
         Assert.assertEquals(test.getNodeCount(), 21);
         Assert.assertEquals(test.getWordCount(), 7);
         Assert.assertNotNull(test.find("bob"));
+        System.out.println(test.toString());
 
 
         Assert.assertFalse(false);
@@ -161,5 +160,6 @@ public class SpellingCorrector implements SpellCorrector {
         }
         return transList;
     }
+
 
 }

@@ -1,5 +1,8 @@
 package spell;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created by Matt on 9/4/2014.
  */
@@ -7,6 +10,8 @@ public class Words implements Trie  {
     WordNode root = new WordNode();
     int nodeCount =1;
     int wordCount=0;
+    HashMap<String, Integer> toStringMap = new HashMap<String,Integer>();
+
 
     @Override
     public void add(String word) {
@@ -68,6 +73,42 @@ public class Words implements Trie  {
             }
         }
         return count;
+    }
+
+    /**
+     * The toString specification is as follows:
+     * For each word, in alphabetical order:
+     * <word> <count>\n
+     */
+    @Override
+    public String toString(){
+        StringBuilder returnString = new StringBuilder();
+        returnString = getString(root);
+        return returnString.toString();
+    }
+
+    public StringBuilder getString(WordNode node){
+        StringBuilder returnString = new StringBuilder();
+        for(WordNode n:node.Nodes){
+            if(n != null){
+                if(n.count > 0){
+                    returnString.append(n.getName()).append(" ").append(n.getValue()).append("\n");
+                }
+                returnString.append(getString(n));
+            }
+        }
+        return returnString;
+    }
+
+    @Override
+    public int hashCode(){
+
+        return 0;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        return false;
     }
 
     public class WordNode implements Trie.Node {
