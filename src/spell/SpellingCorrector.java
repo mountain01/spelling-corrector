@@ -15,9 +15,10 @@ import java.util.Scanner;
 public class SpellingCorrector implements SpellCorrector {
 
     @Test
-    public void test1() throws IOException {
+    public void test1() throws IOException, NoSimilarWordFoundException {
         SpellingCorrector testSpell = new SpellingCorrector();
-        testSpell.useDictionary("dictionary.txt");
+        testSpell.suggestSimilarWord("Tree");
+//        testSpell.useDictionary("dictionary.txt");
 
         Assert.assertEquals(test.getNodeCount(), 19);
         Assert.assertEquals(test.getWordCount(), 6);
@@ -38,10 +39,7 @@ public class SpellingCorrector implements SpellCorrector {
 
     Words dictionary = new Words();
     public Words test;
-    ArrayList<Words.WordNode> deleteList;
-    ArrayList<Words.WordNode> transList;
-    ArrayList<Words.WordNode> altList;
-    ArrayList<Words.WordNode> insertList;
+    ArrayList<String> possibilities = new ArrayList<String>();
 
     @Before
     public void init(){
@@ -69,27 +67,43 @@ public class SpellingCorrector implements SpellCorrector {
         if(dictionary.find(inputWord) != null){
             return inputWord.toLowerCase();
         } else {
-            getEditLists(dictionary.root,inputWord.length());
+            getEditDistances(inputWord.toLowerCase());
         }
         return null;
     }
 
-    private void getEditLists(Words.WordNode Node, int inputLength){
-        for(Words.WordNode node:Node.Nodes){
-            if(node != null){
-                int nodeLength = node.getName().length();
-                if(nodeLength == inputLength+1 && node.getValue() > 0){
-                    deleteList.add(node);
-                }
-                if(nodeLength == inputLength && node.getValue() > 0){
-                    transList.add(node);
-                    altList.add(node);
-                }
-                if(nodeLength == inputLength - 1 && node.getValue() > 0){
-                    insertList.add(node);
-                }
-                getEditLists(node,inputLength);
+    public void getEditDistances(String input){
+        deleteDistance(input);
+        insAltDistance(input,0);
+        insAltDistance(input,1);
+        transpositionDistance(input);
+    }
+
+    public void deleteDistance(String input){
+        ArrayList<String> deleteList = new ArrayList<String>();
+       for(int i = 0; i < input.length();i++){
+           String newWord = input.substring(0,i).concat(input.substring(i+1));
+           deleteList.add(newWord);
+       }
+    }
+
+    public void insAltDistance(String input,int distance){
+        ArrayList<String> insertList = new ArrayList<String>();
+        for(int i = 0;i<26;i++){
+            char c = (char) ('a'+i);
+            for(int k = 0;k<input.length();k++){
+                String newWord = input.substring(0,k)+ c + input.substring(k+distance);
+                insertList.add(newWord);
+            }
+            if(distance == 0){
+                insertList.add(input+c);
             }
         }
+
     }
+
+    public void transpositionDistance(String input){
+
+    }
+
 }
