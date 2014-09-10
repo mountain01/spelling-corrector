@@ -94,12 +94,13 @@ public class Words implements Trie  {
 
         Words words = (Words) o;
 
-        if (nodeCount != words.nodeCount) return false;
-        if (wordCount != words.wordCount) return false;
-        if (root != null ? !root.equals(words.root) : words.root != null) return false;
-        if (toStringMap != null ? !toStringMap.equals(words.toStringMap) : words.toStringMap != null) return false;
+        if(nodeCount == words.nodeCount && wordCount == words.wordCount){
+            return root.equals(words.root);
+        }
+        else {
+            return false;
+        }
 
-        return true;
     }
 
     @Override
