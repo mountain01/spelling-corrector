@@ -142,13 +142,13 @@ public class Words implements Trie  {
             if (count != wordNode.count) return false;
             if (name != null ? !name.equals(wordNode.name) : wordNode.name != null) return false;
             for(int i = 0;i<26;i++){
-                if(this.Nodes[i] == null && wordNode.Nodes != null){
+                if(this.Nodes[i] == null && wordNode.Nodes[i] != null){
                     return false;
                 }
-                else if(this.Nodes[i] != null && wordNode.Nodes == null){
+                else if(this.Nodes[i] != null && wordNode.Nodes[i] == null){
                     return false;
                 }
-                else if(this.Nodes[i] == null && wordNode.Nodes == null){
+                else if(this.Nodes[i] == null && wordNode.Nodes[i] == null){
                     continue;
                 }
                 else if(!this.Nodes[i].equals(wordNode.Nodes[i])){
