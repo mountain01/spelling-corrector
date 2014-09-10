@@ -13,43 +13,43 @@ import java.util.*;
 
 public class SpellingCorrector implements SpellCorrector {
 
-    @Test
-    public void test1() throws IOException, NoSimilarWordFoundException {
-        SpellingCorrector testSpell = new SpellingCorrector();
-        testSpell.useDictionary("dictionary.txt");
-        System.out.println(test.toString());
-
-        Assert.assertEquals(test.getNodeCount(), 19);
-        Assert.assertEquals(test.getWordCount(), 6);
-        Assert.assertNotNull(test.find("apple"));
-        Assert.assertNull(test.find("bob"));
-        test.add("bob");
-        Assert.assertEquals(test.getNodeCount(), 21);
-        Assert.assertEquals(test.getWordCount(), 7);
-        Assert.assertNotNull(test.find("bob"));
-        test.add("bob");
-        Assert.assertEquals(test.getNodeCount(), 21);
-        Assert.assertEquals(test.getWordCount(), 7);
-        Assert.assertNotNull(test.find("bob"));
-        System.out.println(testSpell.dictionary.toString());
-
-
-        Assert.assertFalse(false);
-    }
+//    @Test
+//    public void test1() throws IOException, NoSimilarWordFoundException {
+//        SpellingCorrector testSpell = new SpellingCorrector();
+//        testSpell.useDictionary("dictionary.txt");
+//        System.out.println(test.toString());
+//
+//        Assert.assertEquals(test.getNodeCount(), 19);
+//        Assert.assertEquals(test.getWordCount(), 6);
+//        Assert.assertNotNull(test.find("apple"));
+//        Assert.assertNull(test.find("bob"));
+//        test.add("bob");
+//        Assert.assertEquals(test.getNodeCount(), 21);
+//        Assert.assertEquals(test.getWordCount(), 7);
+//        Assert.assertNotNull(test.find("bob"));
+//        test.add("bob");
+//        Assert.assertEquals(test.getNodeCount(), 21);
+//        Assert.assertEquals(test.getWordCount(), 7);
+//        Assert.assertNotNull(test.find("bob"));
+//        System.out.println(testSpell.dictionary.toString());
+//
+//
+//        Assert.assertFalse(false);
+//    }
 
     Words dictionary = new Words();
     public Words test;
 
-    @Before
-    public void init(){
-        test = new Words();
-        test.add("kick");
-        test.add("kicks");
-        test.add("kicker");
-        test.add("apple");
-        test.add("ape");
-        test.add("brick");
-    }
+//    @Before
+//    public void init(){
+//        test = new Words();
+//        test.add("kick");
+//        test.add("kicks");
+//        test.add("kicker");
+//        test.add("apple");
+//        test.add("ape");
+//        test.add("brick");
+//    }
 
     @Override
     public void useDictionary(String dictionaryFileName) throws IOException {
