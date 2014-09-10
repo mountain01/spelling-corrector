@@ -140,6 +140,21 @@ public class Words implements Trie  {
 
             if (count != wordNode.count) return false;
             if (name != null ? !name.equals(wordNode.name) : wordNode.name != null) return false;
+            for(int i = 0;i<26;i++){
+                if(this.Nodes[i] == null && wordNode.Nodes != null){
+                    return false;
+                }
+                else if(this.Nodes[i] != null && wordNode.Nodes == null){
+                    return false;
+                }
+                else if(this.Nodes[i] == null && wordNode.Nodes == null){
+                    continue;
+                }
+                else if(!this.Nodes[i].equals(wordNode.Nodes[i])){
+                    return false;
+                }
+
+            }
 
             return true;
         }
