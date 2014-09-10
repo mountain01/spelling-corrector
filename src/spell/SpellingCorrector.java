@@ -31,7 +31,7 @@ public class SpellingCorrector implements SpellCorrector {
         Assert.assertEquals(test.getNodeCount(), 21);
         Assert.assertEquals(test.getWordCount(), 7);
         Assert.assertNotNull(test.find("bob"));
-        System.out.println(test.toString());
+        System.out.println(testSpell.dictionary.toString());
 
 
         Assert.assertFalse(false);
@@ -100,7 +100,7 @@ public class SpellingCorrector implements SpellCorrector {
         }
     }
 
-    public Map<String,Integer> getValidWords(ArrayList<String> list){
+    private Map<String,Integer> getValidWords(ArrayList<String> list){
         Map<String,Integer> words = new HashMap<String, Integer>();
         for(String word:list){
             Words.WordNode node = dictionary.find(word);
@@ -111,7 +111,7 @@ public class SpellingCorrector implements SpellCorrector {
         return words;
     }
 
-    public ArrayList<String> getEditDistances(String input){
+    private ArrayList<String> getEditDistances(String input){
         ArrayList<String> possibilities = new ArrayList<String>();
         possibilities.addAll(deleteDistance(input));
         possibilities.addAll(insAltDistance(input, 0));
@@ -120,7 +120,7 @@ public class SpellingCorrector implements SpellCorrector {
         return possibilities;
     }
 
-    public ArrayList<String> getEditDistances(ArrayList<String> list){
+    private ArrayList<String> getEditDistances(ArrayList<String> list){
         ArrayList<String> possiblities = new ArrayList<String>();
         for(String word:list){
             possiblities.addAll(getEditDistances(word));
@@ -128,7 +128,7 @@ public class SpellingCorrector implements SpellCorrector {
         return possiblities;
     }
 
-    public ArrayList<String> deleteDistance(String input){
+    private ArrayList<String> deleteDistance(String input){
         ArrayList<String> deleteList = new ArrayList<String>();
        for(int i = 0; i < input.length();i++){
            String newWord = input.substring(0,i).concat(input.substring(i+1));
@@ -137,7 +137,7 @@ public class SpellingCorrector implements SpellCorrector {
         return deleteList;
     }
 
-    public ArrayList<String> insAltDistance(String input,int distance){
+    private ArrayList<String> insAltDistance(String input,int distance){
         ArrayList<String> insertList = new ArrayList<String>();
         for(int i = 0;i<26;i++){
             char c = (char) ('a'+i);
@@ -152,7 +152,7 @@ public class SpellingCorrector implements SpellCorrector {
         return insertList;
     }
 
-    public ArrayList<String> transpositionDistance(String input){
+    private ArrayList<String> transpositionDistance(String input){
         ArrayList<String> transList = new ArrayList<String>();
         for(int i = 0; i < input.length()-1;i++){
             String newWord = input.substring(0,i)+input.charAt(i+1)+input.charAt(i)+input.substring(i+2);

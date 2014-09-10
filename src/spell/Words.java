@@ -82,9 +82,33 @@ public class Words implements Trie  {
      */
     @Override
     public String toString(){
-        StringBuilder returnString = new StringBuilder();
+        StringBuilder returnString;
         returnString = getString(root);
         return returnString.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Words)) return false;
+
+        Words words = (Words) o;
+
+        if (nodeCount != words.nodeCount) return false;
+        if (wordCount != words.wordCount) return false;
+        if (root != null ? !root.equals(words.root) : words.root != null) return false;
+        if (toStringMap != null ? !toStringMap.equals(words.toStringMap) : words.toStringMap != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = root != null ? root.hashCode() : 0;
+        result = 31 * result + nodeCount;
+        result = 31 * result + wordCount;
+        result = 31 * result + (toStringMap != null ? toStringMap.hashCode() : 0);
+        return result;
     }
 
     public StringBuilder getString(WordNode node){
@@ -100,22 +124,32 @@ public class Words implements Trie  {
         return returnString;
     }
 
-    @Override
-    public int hashCode(){
-
-        return 0;
-    }
-
-    @Override
-    public boolean equals(Object o){
-        return false;
-    }
 
     public class WordNode implements Trie.Node {
 
         public WordNode[] Nodes = new WordNode[26];
         private int count=0;
         private String name;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            WordNode wordNode = (WordNode) o;
+
+            if (count != wordNode.count) return false;
+            if (name != null ? !name.equals(wordNode.name) : wordNode.name != null) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = count;
+            result = 31 * result + (name != null ? name.hashCode() : 0);
+            return result;
+        }
 
         @Override
         public int getValue() {
