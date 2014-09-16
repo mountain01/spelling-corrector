@@ -54,8 +54,8 @@ public class SpellingCorrector implements SpellCorrector {
     @Override
     public void useDictionary(String dictionaryFileName) throws IOException {
         Scanner in = new Scanner(new File(dictionaryFileName));
-        while(in.hasNextLine()){
-            dictionary.add(in.nextLine());
+        while(in.hasNext()){
+            dictionary.add(in.next());
         }
         in.close();
     }
